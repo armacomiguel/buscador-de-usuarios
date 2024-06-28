@@ -1,18 +1,34 @@
-import React from 'react';
-import SearchIcon from  "@/components/icons/searchIcon";
+"use client";
+
+import { useState } from 'react';
+import FormSearchUser from '@/components/FormSearchUser';
+import UserCardInfo from '@/components/UserCardInfo';
+import { User } from '@/interfaces/users';
 
 const Home = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const getUser = async (username: string) => {
+    const res = await fetch(`https://api.github.com/users/${username}`);
+    console.log(res);
+    if(!res.ok){
+      setUser(null);
+      setError("Usuario no existe!.");
+      return;
+    }
+
+    setUser(await res.json());
+    setError(null)
+  };
+
   return (
     <>
-      <form className='flex flex-wrap items-center gap-2 bg-blue-900 p-2 rounded-xl'>
-        <span className='min-w-[20px]'>
-          <SearchIcon className='fill-sky-500'
-          />
-        </span>
-        <input type='text' placeholder='Buscar Github usuario...' className='flex-1 h-14 p-2 rounded-lg 
-        bg-transparent text-white placeholder:text-white focus:outline-none focus:ring-2 focus:ring-sky-500'/>
-        <button className='bg-sky-500 rounded-lg py-4 px-4 text-white font-bold'>Buscar</button>
-      </form>
+      <FormSearchUser getUser={getUser}/>
+      { user && <UserCardInfo user={user}/> }
+      {error && (
+        <div className='rounded-lg bg-red-500 p-4 text-white'>{error}</div>
+      )}
     </>
   )
 }

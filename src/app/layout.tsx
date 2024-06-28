@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from '@/components/Navbar';
 
-const space_Grotesk = Space_Grotesk({ subsets: ["latin"] });
+const roboto = Roboto_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,8 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={space_Grotesk.className}>
-       <div className="grid  place-content-center min-h-screen bg-gray-500">
+      <body className={roboto.className}>
+       <div className="grid min-h-screen place-content-center bg-blue-950 px-4">
         <div className="sm:w-[500px] md:w-[600px] lg:w-[700px]">
           <Navbar />
           {children}
